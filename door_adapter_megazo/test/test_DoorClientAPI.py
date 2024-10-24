@@ -14,7 +14,6 @@
 
 # import sys
 import yaml
-import time
 import rclpy
 import unittest
 from rclpy.node import Node
