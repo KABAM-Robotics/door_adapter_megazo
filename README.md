@@ -61,10 +61,13 @@ To allow `door_adapter_megazo` to be configured for custom deployment, please ed
 > Set to True if door remains closed until requested open, and automatically closes if it does not receive subsequent open requests.
 
 - door_signal_period
-> Time taken for door signal to be effective, in seconds.
+> Set time taken for door signal to be effective, in seconds.
 
 - continuous_status_polling
-> Whether to keep checking door state when there are no requests.
+> Set whether to keep checking door state when there are no requests.
+
+- header_key, header_value
+> Set the Megazo API username and password respectively. Please contact the Megazo vendor for details.
 
 ## **Contributions**
 
