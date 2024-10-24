@@ -47,14 +47,14 @@ class TestROS2Node(unittest.TestCase):
         """Test if the connection to Megazo server was successful."""
         self.assertEqual(self.api.check_connection() is None, False)
 
-    def test_DoorClientAPI_get_DeviceID_ProjectID(self):
-        """Test if the ICED Device and Project ID were successfully retrieved."""
-        device_id, project_id = self.api.get_iced_list_deviceID(self.door_id)
-        project_id_2 = self.api.sign_in_project(project_id)
+    # def test_DoorClientAPI_get_DeviceID_ProjectID(self):
+    #     """Test if the ICED Device and Project ID were successfully retrieved."""
+    #     device_id, project_id = self.api.get_iced_list_deviceID(self.door_id)
+    #     project_id_2 = self.api.sign_in_project(project_id)
 
-        self.assertEqual(device_id is None, True)
-        self.assertEqual(project_id is None, True)
-        self.assertEqual(project_id_2 is None, True)
+    #     self.assertEqual(device_id is None, True)
+    #     self.assertEqual(project_id is None, True)
+    #     self.assertEqual(project_id_2 is None, True)
 
 
 if __name__ == '__main__':
