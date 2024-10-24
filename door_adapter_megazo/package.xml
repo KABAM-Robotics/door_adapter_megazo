@@ -7,6 +7,7 @@
   <maintainer email="gary.bey@kabam.ai"></maintainer>
   <license>Apache License 2.0</license>
 
+  <exec_depend>rclpy</exec_depend>
   <exec_depend>rmf_door_msgs</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
