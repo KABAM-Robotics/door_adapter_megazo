@@ -1,0 +1,23 @@
+ 
+# RMF Megazo door parameters
+
+### template ###
+doors:
+  "Lab_D01":  # door name and id
+    door_auto_closes: False # Set to True if door remains closed until requested open, and automatically closes if it does not receive subsequent open requests.
+    door_signal_period: 3.0 # Time taken for door signal to be effective, in seconds.
+    continuous_status_polling: False # Whether to keep checking door state when there are no requests
+
+door_subscriber:
+  topic_name: "adapter_door_requests"
+
+door_publisher:
+  topic_name: "door_states"
+  door_state_publish_period: 1.0 # Seconds
+
+mock: False
+
+# Sample creds:
+api_endpoint: "http://icad.megazo.io:8181"
+header_key: "INSERT MEGAZO USER HERE"
+header_value: "INSERT MEGAZO PASSWORD HERE"
