@@ -12,6 +12,7 @@ This repository contains the RMF Door Adapter that interfaces with Megazo's Door
 
 - ROS 2 `Humble`
 - [Open-RMF on Humble Hawksbill - Sync 2023-12-29](https://github.com/open-rmf/rmf/releases/tag/release-humble-231229)
+- [ICAD Integrated Access Control Device]()
 
 ## **Build** 🔨
 
