@@ -70,6 +70,9 @@ To allow `door_adapter_megazo` to be configured for custom deployment, please ed
 - header_key, header_value
 > Set the Megazo API username and password respectively. Please contact the Megazo vendor for details.
 
+- enable_mqtt_status_polling
+> Set whether to poll a door status using MQTT or not. Use when conventional approach is inaccurate.
+
 ## **Contributions**
 
 **We welcome contributions!** Please see the [contribution guidelines](/CONTRIBUTING.md).
