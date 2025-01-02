@@ -132,6 +132,9 @@ class DoorClientAPI:
         except requests.exceptions.ConnectionError as connection_error:
             self.ros_logger.warn(f'Connection error: {connection_error}')
             return None
+        except requests.exceptions.HTTPError as http_error:
+            self.ros_logger.warn(f'HTTP error: {http_error} - Renewing token...')
+            self.token = self.get_token()
         except HTTPError as http_err:
             self.ros_logger.warn(f'HTTP error: {http_err}')
             return None
@@ -197,13 +200,21 @@ class DoorClientAPI:
         except requests.exceptions.ConnectionError as connection_error:
             self.ros_logger.warn(f'Connection error: {connection_error}')
             return None
+        except requests.exceptions.HTTPError as http_error:
+            self.ros_logger.warn(f'HTTP error: {http_error} - Renewing token...')
+            self.token = self.get_token()
         except HTTPError as http_err:
             self.ros_logger.warn(f'HTTP error: {http_err}')
             return None
 
     def open_door(self, door_id):
         """Return True if the door API server is successful receive open door command."""
-        device_id, project_id = self.get_iced_list_deviceID(door_id)
+        try:
+            device_id, project_id = self.get_iced_list_deviceID(door_id)
+        except TypeError as e:
+            self.ros_logger.warn(f'Encountered {e}. Failed to get device_id' +
+                                 ' or project_id. Returning false.')
+            return False
 
         if device_id is None or project_id is None:
             self.ros_logger.error("Unable to retrieve Device/Project ID. Returning False")
@@ -250,13 +261,21 @@ class DoorClientAPI:
         except requests.exceptions.ConnectionError as connection_error:
             self.ros_logger.warn(f'Connection error: {connection_error}')
             return False
+        except requests.exceptions.HTTPError as http_error:
+            self.ros_logger.warn(f'HTTP error: {http_error} - Renewing token...')
+            self.token = self.get_token()
         except HTTPError as http_err:
             self.ros_logger.warn(f'HTTP error: {http_err}')
             return False
 
     def close_door(self, door_id):
         """Return True if the door API server is successful receive open door command."""
-        device_id, project_id = self.get_iced_list_deviceID(door_id)
+        try:
+            device_id, project_id = self.get_iced_list_deviceID(door_id)
+        except TypeError as e:
+            self.ros_logger.warn(f'Encountered {e}. Failed to get device_id' +
+                                 ' or project_id. Returning false.')
+            return False
 
         if device_id is None or project_id is None:
             self.ros_logger.error("Unable to retrieve Device/Project ID. Returning False")
@@ -270,14 +289,14 @@ class DoorClientAPI:
 
         path = self.config["api_endpoint"] + "/API/Device/ICED/ControlDoor"
 
-        FORCED_SHUTDOWN = 4
+        NORMAL_SHUTDOWN = 2
 
         payload = {
             'UserID': self.config["header_key"],
             'Token': self.token,
             'data': {
                 'IDs': [device_id],
-                'Operate': FORCED_SHUTDOWN
+                'Operate': NORMAL_SHUTDOWN
             }
         }
         requestHeaders = {'Content-Type': 'application/json'}
@@ -303,6 +322,9 @@ class DoorClientAPI:
         except requests.exceptions.ConnectionError as connection_error:
             self.ros_logger.warn(f'Connection error: {connection_error}')
             return False
+        except requests.exceptions.HTTPError as http_error:
+            self.ros_logger.warn(f'HTTP error: {http_error} - Renewing token...')
+            self.token = self.get_token()
         except HTTPError as http_err:
             self.ros_logger.warn(f'HTTP error: {http_err}')
             return False

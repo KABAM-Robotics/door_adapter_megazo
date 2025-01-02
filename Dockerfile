@@ -4,7 +4,7 @@ FROM ros:humble-ros-base
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ros-humble-rmf-door-msgs \
         python3-pip && \
-        pip3 install websockets websocket-client requests && \
+        pip3 install websockets websocket-client requests gmqtt && \
     rm -rf /var/lib/apt/lists/*
 
 # Clone the repository

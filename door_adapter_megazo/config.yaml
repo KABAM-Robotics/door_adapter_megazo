@@ -5,11 +5,14 @@
 doors:
   "Lab_D01":  # door name and id
     door_auto_closes: False # Set to True if door remains closed until requested open, and automatically closes if it does not receive subsequent open requests.
-    door_signal_period: 3.0 # Time taken for door signal to be effective, in seconds.
+    door_signal_period: 10.0 # Time taken for door signal to be effective, in seconds.
     continuous_status_polling: False # Whether to keep checking door state when there are no requests
+    enable_mqtt_status_polling: True # Whether to use MQTT method of polling as alternative to ICEDList status polling.
 
 door_subscriber:
-  topic_name: "adapter_door_requests"
+  request_topic_name: "adapter_door_requests"
+  mqtt_topic_name: "mqtt_door_status"
+
 
 door_publisher:
   topic_name: "door_states"
@@ -19,5 +22,7 @@ mock: False
 
 # Sample creds:
 api_endpoint: "http://icad.megazo.io:8181"
+mqtt_broker: "icad.megazo.io"
+mqtt_port: 1883
 header_key: "INSERT MEGAZO USER HERE"
 header_value: "INSERT MEGAZO PASSWORD HERE"

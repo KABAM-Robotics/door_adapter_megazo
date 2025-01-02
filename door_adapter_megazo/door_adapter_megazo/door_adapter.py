@@ -33,13 +33,15 @@ class Door:
                  door_id,
                  door_auto_closes,
                  door_signal_period,
-                 continuous_status_polling):
+                 continuous_status_polling,
+                 enable_mqtt_status_polling):
         self.id = door_id
         self.door_mode = DoorMode.MODE_CLOSED
         self.open_door = False
         self.check_status = None  # set to None if not enabled
         self.door_auto_closes = door_auto_closes
         self.door_signal_period = door_signal_period
+        self.enable_mqtt_status_polling = enable_mqtt_status_polling
         if continuous_status_polling:
             self.check_status = False
 
@@ -49,7 +51,7 @@ class Door:
 class DoorAdapter(Node):
     """A Module that bridges between ROS 2 and Megazo Door API."""
 
-    def __init__(self, config_yaml):
+    def __init__(self, config_yaml, is_mqtt_enabled):
         super().__init__('door_adapter_megazo')
         self.get_logger().info('Initialising [door_adapter_megazo]...')
 
@@ -59,6 +61,8 @@ class DoorAdapter(Node):
         door_pub = config_yaml['door_publisher']
         door_sub = config_yaml['door_subscriber']
         self.mock_adapter = config_yaml.get('mock', False)
+        self.enable_mqtt = False
+        self.periodic_timer = None
 
         # Connect to doors
         if not self.mock_adapter:
@@ -77,19 +81,24 @@ class DoorAdapter(Node):
                         auto_close = not door_data['door_close_feature']
                 assert auto_close is not None
 
+                if door_data.get('enable_mqtt_status_polling', False):
+                    self.enable_mqtt = True
+
                 self.doors[door_id] = Door(door_id,
                                            auto_close,
                                            door_data['door_signal_period'],
-                                           door_data.get('continuous_status_polling', False))
+                                           door_data.get('continuous_status_polling', False),
+                                           door_data.get('enable_mqtt_status_polling', False))
 
         self.door_states_pub = self.create_publisher(
             DoorState, door_pub['topic_name'], 100)
 
         self.door_request_sub = self.create_subscription(
-            DoorRequest, door_sub['topic_name'], self.door_request_cb, 100)
+            DoorRequest, door_sub['request_topic_name'], self.door_request_cb, 100)
 
-        self.periodic_timer = self.create_timer(
-            self.door_state_publish_period, self.time_cb)
+        if not self.enable_mqtt:
+            self.periodic_timer = self.create_timer(
+                self.door_state_publish_period, self.time_cb)
 
     def door_open_command_request(self, door_data: Door):
         """
@@ -235,16 +244,32 @@ def main(argv=sys.argv):
     parser = argparse.ArgumentParser(
         prog="door_adapter",
         description="Configure and spin up door adapter for door ")
-    parser.add_argument("-c", "--config_file", type=str, required=True,
-                        help="Path to the config.yaml file for this door adapter")
+    parser.add_argument(
+        "-c", "--config_file",
+        type=str,
+        required=True,
+        help="Path to the config.yaml file for this door adapter"
+    )
+    parser.add_argument(
+        '--enable_mqtt',
+        type=str,
+        default=False,
+        help='Enable or disable the MQTT status polling (true/false)'
+    )
+
     args = parser.parse_args(args_without_ros[1:])
     config_path = args.config_file
+
+    print(f"Feature enabled: {args.enable_mqtt}")
+    is_mqtt_enabled = False
+    if args.enable_mqtt == "True":
+        is_mqtt_enabled = True
 
     # Load config and nav graph yamls
     with open(config_path, "r", encoding="utf-8") as f:
         config_yaml = yaml.safe_load(f)
 
-    door_adapter = DoorAdapter(config_yaml)
+    door_adapter = DoorAdapter(config_yaml, is_mqtt_enabled)
     rclpy.spin(door_adapter)
 
     door_adapter.destroy_node()

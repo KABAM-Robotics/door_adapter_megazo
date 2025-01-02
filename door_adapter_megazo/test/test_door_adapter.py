@@ -28,17 +28,19 @@ class TestROS2Node(unittest.TestCase):
         cls.test_door = Door('Lab_D01',
                              False,
                              3.0,
+                             False,
                              False)
 
         cls.test_door_status = Door('Lab_D01',
                                     False,
                                     3.0,
-                                    True)
+                                    True,
+                                    False)
 
         config_path = "config.yaml"
         with open(config_path, "r", encoding="utf-8") as f:
             config_yaml = yaml.safe_load(f)
-        cls.door_adapter = DoorAdapter(config_yaml)
+        cls.door_adapter = DoorAdapter(config_yaml, False)
 
     def test_Door_init(self):
         """Test if the node was created properly."""
@@ -64,7 +66,7 @@ class TestROS2Node(unittest.TestCase):
         self.assertEqual(self.door_adapter.mock_adapter, False)
         self.assertEqual(self.door_adapter.door_states_pub is None, False)
         self.assertEqual(self.door_adapter.door_request_sub is None, False)
-        self.assertEqual(self.door_adapter.periodic_timer is None, False)
+        self.assertEqual(self.door_adapter.periodic_timer is None, True)
 
 
 if __name__ == '__main__':
