@@ -363,7 +363,7 @@ class DoorClientAPI:
                     if door_id in device['ICEDName']:
                         # Check if door is online recently.
                         last_heartbeat_timestamp = datetime.strptime(
-                            data['data'][0]['LastHeartbeatTime'],
+                            device['LastHeartbeatTime'],
                             "%Y-%m-%d %H:%M:%S")
                         current_time = datetime.now()
 
@@ -380,7 +380,7 @@ class DoorClientAPI:
                                                  " expired. [MODE_OFFLINE]")
                             return DoorMode.MODE_OFFLINE
                         else:
-                            if data['data'][0]['DoorOpenStatus'] == 0:
+                            if device['DoorOpenStatus'] == 0:
                                 self.ros_logger.info(f"Door [{door_id}] [MODE_CLOSED]")
                                 return DoorMode.MODE_CLOSED
                             else:
