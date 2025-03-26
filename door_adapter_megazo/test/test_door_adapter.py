@@ -66,7 +66,7 @@ class TestROS2Node(unittest.TestCase):
         self.assertEqual(self.door_adapter.mock_adapter, False)
         self.assertEqual(self.door_adapter.door_states_pub is None, False)
         self.assertEqual(self.door_adapter.door_request_sub is None, False)
-        self.assertEqual(self.door_adapter.periodic_timer is None, True)
+        self.assertEqual(self.door_adapter.periodic_timer is not None, True)
 
 
 if __name__ == '__main__':
