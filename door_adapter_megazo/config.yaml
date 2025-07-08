@@ -3,7 +3,7 @@
 
 ### template ###
 doors:
-  "Lab_D01":  # door name and id
+  "Lab_D01":  # door name and id. Ensure that it mirrors its name on evcard platform and RMF map.
     door_auto_closes: False # Set to True if door remains closed until requested open, and automatically closes if it does not receive subsequent open requests.
     door_signal_period: 10.0 # Time taken for door signal to be effective, in seconds.
     continuous_status_polling: False # Whether to keep checking door state when there are no requests
