@@ -10,8 +10,8 @@ This repository contains the RMF Door Adapter that interfaces with Megazo's Door
 
 ## **Dependencies** 📚
 
-- ROS 2 `Humble`
-- [Open-RMF on Humble Hawksbill - Sync 2023-12-29](https://github.com/open-rmf/rmf/releases/tag/release-humble-231229)
+- ROS 2 `Jazzy`
+- [Open-RMF on Jazzy Jalisco](https://github.com/open-rmf/rmf/releases/tag/release-jazzy-240617)
 - [ICAD Integrated Access Control Device]()
 
 ## **Build** 🔨
@@ -21,11 +21,11 @@ cd $HOME
 ```
 
 ```bash
-git clone https://github.com/KABAM-Robotics/door_adapter_megazo.git --depth 1 --single-branch --branch devel/humble && cd door_adapter_megazo
+git clone https://github.com/KABAM-Robotics/door_adapter_megazo.git --depth 1 --single-branch --branch devel/jazzy && cd door_adapter_megazo
 ```
 
 ```bash
-docker build -t door_adapter_megazo:humble .
+docker build -t door_adapter_megazo:jazzy .
 ```
 
 ## **Run** ⚙️
@@ -36,7 +36,7 @@ docker run -it --rm \
     --network host \
     -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp \
     -v ./door_adapter_megazo/config.yaml:/door_adapter_megazo_ws/src/door_adapter_megazo/config.yaml \
-door_adapter_megazo:humble /bin/bash -c "source /ros_entrypoint.sh && ros2 run door_adapter_megazo door_adapter --config_file /door_adapter_megazo_ws/src/door_adapter_megazo/config.yaml"
+door_adapter_megazo:jazzy /bin/bash -c "source /ros_entrypoint.sh && ros2 run door_adapter_megazo door_adapter --config_file /door_adapter_megazo_ws/src/door_adapter_megazo/config.yaml"
 ```
 
 ## **Verify** ✅

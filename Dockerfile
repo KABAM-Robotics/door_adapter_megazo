@@ -1,12 +1,12 @@
-FROM ros:humble-ros-base
-ENV ROS_DISTRO=humble
+FROM ros:jazzy-ros-base
+ENV ROS_DISTRO=jazzy
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ros-$ROS_DISTRO-rmw-cyclonedds-cpp \
         ros-$ROS_DISTRO-rmf-door-msgs \
         python3-pip && \
-        pip3 install websockets websocket-client requests gmqtt && \
+        pip3 install websockets websocket-client requests gmqtt --break-system-packages && \
     rm -rf /var/lib/apt/lists/*
 
 # Clone the repository
