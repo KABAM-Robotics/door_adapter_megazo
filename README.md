@@ -4,7 +4,7 @@
 
 ## **What Is This?**
 
-This repository contains the RMF Door Adapter that interfaces with Megazo's Door Access System ICAD v3.
+This repository contains the RMF Door Adapter that interfaces with Smarfid's Door Access System ICAD v3.
 
 ![](img/2024-10-23_rmf_door_megazo.gif)
 
