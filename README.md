@@ -21,7 +21,7 @@ cd $HOME
 ```
 
 ```bash
-git clone https://github.com/KABAM-Robotics/door_adapter_template.git --depth 1 --single-branch --branch main && cd door_adapter_megazo
+git clone https://github.com/KABAM-Robotics/door_adapter_megazo.git --depth 1 --single-branch --branch devel/humble && cd door_adapter_megazo
 ```
 
 ```bash
