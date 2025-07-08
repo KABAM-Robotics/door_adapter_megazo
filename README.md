@@ -34,8 +34,9 @@ docker build -t door_adapter_megazo:humble .
 docker run -it --rm \
     --name door_adapter_megazo_c \
     --network host \
-    -v /dev/shm:/dev/shm \
-door_adapter_megazo:humble /bin/bash -c "source /ros_entrypoint.sh && ros2 run door_adapter_megazo door_adapter"
+    -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp \
+    -v ./door_adapter_megazo/config.yaml:/door_adapter_megazo_ws/src/door_adapter_megazo/config.yaml \
+door_adapter_megazo:humble /bin/bash -c "source /ros_entrypoint.sh && ros2 run door_adapter_megazo door_adapter --config_file /door_adapter_megazo_ws/src/door_adapter_megazo/config.yaml"
 ```
 
 ## **Verify** ✅
